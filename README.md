@@ -1,6 +1,16 @@
 # matomatpy
-Console Application to buy beverages from a fridge
+Curses Application to buy beverages from a fridge
 
 ## Current State
 
-At this time, the requirements are collected in the Wiki.
+The Project Structure is defined.
+
+~~The requirements are collected in the Wiki.~~
+
+## Install Requirements
+ 
+Use the Makefile:
+'''
+    make init
+'''
+
