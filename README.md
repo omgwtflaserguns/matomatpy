@@ -10,7 +10,7 @@ The Project Structure is defined.
 ## Install Requirements
  
 Use the Makefile:
-'''
+```
     make init
-'''
+```
 
