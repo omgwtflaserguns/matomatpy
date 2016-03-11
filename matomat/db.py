@@ -3,8 +3,10 @@
 
 from mongokit import *
 import datetime
+import matomat.config
 
-connection = Connection()
+config = matomat.config.configuration()
+connection = Connection(config["uri"])
 
 @connection.register
 class Beverage(Document):
