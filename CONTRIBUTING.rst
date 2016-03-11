@@ -1,0 +1,39 @@
+.. highlight:: shell
+
+============
+Contributing
+============
+
+Contributions are welcome, and they are greatly appreciated! Every
+little bit helps, and credit will always be given.
+
+You can contribute in many ways:
+
+Get Started!
+------------
+
+Ready to contribute? Here's how to set up `matomat` for local development.
+
+1. Fork the `matomat` repo on GitHub.
+2. Clone your fork locally::
+
+    $ git clone git@github.com:your_name_here/matomat.git
+
+3. Install your local copy into a virtualenv. Assuming you have virtualenv installed, this is how you set up your fork for local development::
+
+    $ cd matomat/
+    $ virtualenv .matomatenv
+    $ source .matomatenv/bin/activate
+    $ python setup.py develop
+
+4. Create a branch for local development::
+
+    $ git checkout -b name-of-your-bugfix-or-feature
+
+   Now you can make your changes locally.
+
+    $ git add .
+    $ git commit -m "Your detailed description of your changes."
+    $ git push origin name-of-your-bugfix-or-feature
+
+5. Submit a pull request through the GitHub website.
