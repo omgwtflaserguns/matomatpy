@@ -33,11 +33,26 @@ def showMenu(window):
     window.addstr(14, 5, 'Etc')
     window.getch()
 
+def showBeverage(window):
+    Beverage = db.Beverage()
+    window.clear()
+
+    Beverage["name"] = "BIER"
+    Beverage["price"] = 1
+    Beverage.save()
+    c = 5
+    for beverage in Beverage.find({}):
+        c += 1
+        window.addstr(c, 5, beverage["name"])
+    c = 5
+    window.getch()
+    return True
+
+
 def matomat(window):
 
     initialize(window)
 
-    Beverage = db.Beverage
 
     while True:
         user, password = showLogin(window)
@@ -45,6 +60,7 @@ def matomat(window):
         if user == '':
             break;
         else:
+            showBeverage(window)
             showMenu(window)
 
 def main():
