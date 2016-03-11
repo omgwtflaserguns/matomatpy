@@ -46,4 +46,8 @@ def matomat(window):
         else:
             showMenu(window)
 
-curses.wrapper(matomat)
+def main():
+    curses.wrapper(matomat)
+
+if __name__ == '__main__':
+    main()

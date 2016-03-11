@@ -30,10 +30,10 @@ setup(
     keywords='mate mongodb fridge drinks',
     packages=find_packages(),
     zip_safe=True,
-    install_requires=['pyfiglet']
+    install_requires=['pyfiglet'],
     entry_points={
         'console_scripts': [
-            'matomat=matomat.cli:cli',
+            'matomat=matomat.matomat:main',
         ],
     },
 )
