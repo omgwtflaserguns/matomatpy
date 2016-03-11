@@ -1,6 +1,6 @@
 import curses
 import pyfiglet
-import matomat.db
+import db
 
 figlet = pyfiglet.Figlet()
 
@@ -37,7 +37,7 @@ def matomat(window):
 
     initialize(window)
 
-    Beverage = matomat.db.Beverage
+    Beverage = db.Beverage
 
     while True:
         user, password = showLogin(window)

@@ -1,2 +1,0 @@
-mongokit
-pyfiglet

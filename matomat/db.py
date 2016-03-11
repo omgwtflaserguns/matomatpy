@@ -3,9 +3,9 @@
 
 from mongokit import *
 import datetime
-import matomat.config
+import config
 
-config = matomat.config.configuration()
+config = config.configuration()
 connection = Connection(config["uri"])
 
 @connection.register
@@ -34,7 +34,7 @@ class User(Document):
             "balance":float,
     }
     required_fields = ['username','created', 'password', 'roles', 'active', 'balance']
-    default_values = {'price':1, 'created':datetime.datetime.now, 'balance':0, 'active':True}
+    default_values = {'created':datetime.datetime.now, 'balance':0, 'active':True}
 
 
 @connection.register
