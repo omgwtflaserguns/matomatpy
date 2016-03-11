@@ -39,8 +39,6 @@ def matomat(window):
     while True:
         user, password = showLogin(window)
 
-
-
         if user == '':
             break;
         else:
