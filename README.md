@@ -9,9 +9,9 @@ The Project Structure is defined.
 
 ## Requirements
  
-matomatpy uses mongoDB wich has to be installed.
+matomatpy uses the database "matomat" in mongoDB, wich has to be installed and running locally.
 
-Use the Makefile to install the Python libraries:
+Use the Makefile to install the Python libraries and initialize the database:
 ```
     make init
 ```
