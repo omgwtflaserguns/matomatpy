@@ -7,9 +7,11 @@ The Project Structure is defined.
 
 ~~The requirements are collected in the Wiki.~~
 
-## Install Requirements
+## Requirements
  
-Use the Makefile:
+matomatpy uses mongoDB wich has to be installed.
+
+Use the Makefile to install the Python libraries:
 ```
     make init
 ```
