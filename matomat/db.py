@@ -13,12 +13,15 @@ class Beverage(Document):
     __database__ = 'matomat'
     __collection__ = 'beverages'
     structure = {
-            'name':unicode,
-            'created':datetime.datetime,
-            'price':float
+            'name': unicode,
+            'created': datetime.datetime,
+            'price': float
     }
-    required_fields = ['name','created', 'price']
-    default_values = {'price':1, 'created':datetime.datetime.now}
+    required_fields = ['name', 'created', 'price']
+    default_values = {
+        'price': 1,
+        'created': datetime.datetime.now
+    }
 
 @connection.register
 class User(Document):
