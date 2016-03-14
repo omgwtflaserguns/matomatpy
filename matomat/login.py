@@ -1,7 +1,7 @@
 import npyscreen
 import pyfiglet
 
-class LoginForm (npyscreen.Form):
+class LoginDisplay (npyscreen.Form):
 
     def addHeader(self):
         figlet = pyfiglet.Figlet()
@@ -15,6 +15,10 @@ class LoginForm (npyscreen.Form):
         self.wgUser = self.add_widget(npyscreen.TitleText, name='User:', max_height=1, rely=-5)
         self.wgPass = self.add_widget(npyscreen.TitlePassword, name='Password:', max_height=1, rely=-3)
 
+    def beforeEditing(self):
+        self.wgUser.value = ''
+        self.wgPass.value = ''
+
     def afterEditing(self):
 
         # TODO: Login Logic here
@@ -22,7 +26,7 @@ class LoginForm (npyscreen.Form):
 
         if user:
             self.parentApp.currentUser = user
-            self.parentApp.switchForm("BEVERAGES")
+            self.parentApp.switchForm("MENU")
         else:
-            self.wgPass.value = ''
+            npyscreen.notify_confirm('Wrong Username or Password', 'Login incorrect')
 

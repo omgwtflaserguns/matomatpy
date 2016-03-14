@@ -2,6 +2,7 @@ import npyscreen
 import db
 import beverages
 import login
+import menu
 
 class Matomat(npyscreen.NPSAppManaged):
 
@@ -22,7 +23,8 @@ class Matomat(npyscreen.NPSAppManaged):
         self.beverage = db.connection.Beverage
         self.user = db.connection.User
 
-        self.addForm("MAIN", login.LoginForm)
+        self.addForm("MAIN", login.LoginDisplay)
+        self.addForm("MENU", menu.MenuDisplay)
         self.addForm("BEVERAGES", beverages.BeverageListDisplay)
 
 def main():
