@@ -1,6 +1,7 @@
 import npyscreen
 import db
 import beverages
+import login
 
 class Matomat(npyscreen.NPSAppManaged):
 
@@ -10,9 +11,19 @@ class Matomat(npyscreen.NPSAppManaged):
         Beverage["price"] = 1.0
         Beverage.save()
 
+    def insertUser(self):
+        User = db.connection.User()
+        User["username"] = unicode("muchwow")
+        User["password"] = unicode("suchpass")
+        User["rights"] = ["not", "yet", "implemented"]
+        User.save()
+
     def onStart(self):
         self.beverage = db.connection.Beverage
-        self.addForm("MAIN", beverages.BeverageListDisplay)
+        self.user = db.connection.User
+
+        self.addForm("MAIN", login.LoginForm)
+        self.addForm("BEVERAGES", beverages.BeverageListDisplay)
 
 def main():
     matomat = Matomat()

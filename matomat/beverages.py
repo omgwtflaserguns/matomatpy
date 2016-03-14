@@ -13,6 +13,8 @@ class BeverageListDisplay (npyscreen.FormMutt):
 
     def beforeEditing(self):
         self.update_list()
+        self.wStatus1.value = 'Matomat'
+        self.wStatus2.value = 'Logged in as ' + str(self.parentApp.currentUser['username'])
 
     def update_list(self):
         self.wMain.values = list(self.parentApp.beverage.find())

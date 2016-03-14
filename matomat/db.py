@@ -28,16 +28,16 @@ class User(Document):
     __database__ = 'matomat'
     __collection__ = 'users'
     structure = {
-            'username':unicode,
-            'password':unicode,
-            "roles":list,  # ["adduser", "otherrole"]
-            "created":datetime.datetime,
-            "active":bool,
-            "rfid":unicode,
-            "balance":float,
+            'username': unicode,
+            'password': unicode,
+            "rights": list,
+            "created": datetime.datetime,
+            "active": bool,
+            "rfid": unicode,
+            "balance": float,
     }
-    required_fields = ['username','created', 'password', 'roles', 'active', 'balance']
-    default_values = {'created':datetime.datetime.now, 'balance':0, 'active':True}
+    required_fields = ['username', 'created', 'password', 'rights', 'active', 'balance']
+    default_values = {'created':datetime.datetime.now, 'balance':0.0, 'active':True}
 
 
 @connection.register
