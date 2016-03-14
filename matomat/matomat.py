@@ -14,6 +14,9 @@ class Matomat(npyscreen.NPSAppManaged):
         self.beverage = db.connection.Beverage
         self.addForm("MAIN", beverages.BeverageListDisplay)
 
-if __name__ == '__main__':
+def main():
     matomat = Matomat()
     matomat.run()
+
+if __name__ == '__main__':
+    main()
