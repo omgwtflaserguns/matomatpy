@@ -10,15 +10,11 @@ class LoginDisplay (npyscreen.Form):
         self.wgUser.value = ''
         self.wgPass.value = ''
 
-    def add_header(self):
+    def register_widgets(self):
         figlet = pyfiglet.Figlet()
         header = figlet.renderText("Matomat")
 
-        self.add_widget(npyscreen.MultiLineEdit, value=header, editable=False)
-
-    def register_widgets(self):
-        self.add_header()
-
+        self.wgHeader = self.add_widget(npyscreen.MultiLineEdit, value=header, editable=False)
         self.wgUser = self.add_widget(npyscreen.TitleText, name='User:', max_height=1, rely=-5)
         self.wgPass = self.add_widget(npyscreen.TitlePassword, name='Password:', max_height=1, rely=-3)
 
