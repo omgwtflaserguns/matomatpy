@@ -4,6 +4,7 @@
 import os
 import ConfigParser
 
+
 def configuration(conf="~/.matomat.conf"):
 
     config = dict()
