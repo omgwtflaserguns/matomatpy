@@ -1,23 +1,39 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
-import ConfigParser
+import npyscreen
+import constants
 
 
-def configuration(conf="~/.matomat.conf"):
+class Config:
 
-    config = dict()
-    c = ConfigParser.ConfigParser()
+    options = None
 
-    if not c.read(os.path.expanduser(conf)):
-        print("Error: your con %s could not be read" % conf)
-        exit(1)
+    def __init__(self):
+        self.options = self.create_config()
 
-    try:
-        config["uri"] = c.get("General", "MongoDB")
-    except ConfigParser.NoOptionError:
-        print("Error: Please set a MongoDB Connection URI in %s" % conf)
-        exit(1)
+    def write_config(self):
+        with open(constants.Paths.CONFIG_FILE, 'w') as f:
+            for opt in self.options.options:
+                    f.write('%s=%s\n' % (opt.get_real_name(), opt.get()))
 
-    return config
+    def create_config(self):
+        opt = npyscreen.OptionList()
+        opt.options.append(npyscreen.OptionFreeText(
+                       constants.Options.MONGODB_URI,
+                       value='localhost'))
+        return opt
+
+    def read_config(self):
+        try:
+            with open(constants.Paths.CONFIG_FILE, 'r') as f:
+                for line in f.readlines():
+                     line = line.strip()
+                     name, value = line.split("=")
+                     for option in self.options.options:
+                         if option.get_real_name() == name:
+                             option.set(value)
+            return True
+        except:
+            return False
+

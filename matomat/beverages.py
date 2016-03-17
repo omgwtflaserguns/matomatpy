@@ -19,5 +19,5 @@ class BeverageListDisplay (npyscreen.FormMutt):
         self.wStatus2.value = 'Logged in as ' + str(self.parentApp.currentUser['username'])
 
     def update_list(self):
-        self.wMain.values = list(self.parentApp.beverage.find())
+        self.wMain.values = list(self.parentApp.db.connection.Beverage.find())
         self.wMain.display()

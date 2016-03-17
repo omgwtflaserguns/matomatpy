@@ -30,7 +30,7 @@ setup(
     keywords='mate mongodb fridge drinks',
     packages=find_packages(),
     zip_safe=True,
-    install_requires=['pyfiglet', 'pymongo<=2.8', 'mongokit', 'ConfigParser', 'npyscreen'],
+    install_requires=['pyfiglet', 'pymongo<=2.8', 'mongokit', 'npyscreen'],
     entry_points={
         'console_scripts': [
             'matomat=matomat.matomat:main',

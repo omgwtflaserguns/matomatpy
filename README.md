@@ -7,7 +7,3 @@ Curses Application to buy beverages from a fridge
 The Project Structure is defined.
 
 ~~The requirements are collected in the Wiki.~~
-
-
-
-

@@ -27,7 +27,7 @@ class LoginDisplay (npyscreen.Form):
     def afterEditing(self):
 
         # TODO: Login Logic here
-        user = db.connection.User.one({'username': self.wgUser.value, 'password': self.wgPass.value})
+        user = self.parentApp.db.connection.User.one({'username': self.wgUser.value, 'password': self.wgPass.value})
 
         if user:
             self.parentApp.current_user = user

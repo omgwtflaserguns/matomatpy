@@ -3,10 +3,12 @@ import npyscreen
 import constants
 import db
 
+
 class MenuList (npyscreen.MultiLineAction):
 
     def actionHighlighted(self, act_on_this, key_press):
         npyscreen.notify_confirm('Chosen: ' + str(act_on_this), '')
+
 
 class MenuDisplay (npyscreen.FormMutt):
 
@@ -34,7 +36,7 @@ class MenuDisplay (npyscreen.FormMutt):
         self.wStatus1.value = "Logged on as %s" % (self.parentApp.current_user["username"])
         self.wStatus2.value = "Press q to Logout"
 
-        beverages = db.connection.Beverage.find()
+        beverages = self.parentApp.db.connection.Beverage.find()
         self.wMain.values = ["-- BUY"]
         self.wMain.values += ["%s for %s" % (bev["name"], bev["price"]) for bev in beverages]
         self.wMain.values += ["", "--META"]

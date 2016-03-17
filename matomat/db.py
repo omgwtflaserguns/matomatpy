@@ -3,12 +3,18 @@
 
 import mongokit
 import datetime
-import config
 
-config = config.configuration()
-connection = mongokit.Connection(config["uri"])
 
-@connection.register
+class db:
+    uri = None
+    connection = None
+
+    def __init__(self, mongodb_uri):
+        self.uri = mongodb_uri
+        self.connection = mongokit.Connection(self.uri)
+        self.connection.register([Beverage, User, Transaction])
+
+
 class Beverage(mongokit.Document):
     __database__ = 'matomat'
     __collection__ = 'beverages'
@@ -23,7 +29,7 @@ class Beverage(mongokit.Document):
         'created': datetime.datetime.now
     }
 
-@connection.register
+
 class User(mongokit.Document):
     __database__ = 'matomat'
     __collection__ = 'users'
@@ -40,7 +46,7 @@ class User(mongokit.Document):
     default_values = {'created': datetime.datetime.now, 'balance': 0.0, 'active': True}
 
 
-@connection.register
+
 class Transaction(mongokit.Document):
     __database__ = 'matomat'
     __collection__ = 'transactions'
