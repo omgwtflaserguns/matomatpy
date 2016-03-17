@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 import npyscreen
 import constants
-import db
+import permissions
 
 
 class MenuList (npyscreen.MultiLineAction):
 
+    def display_value(self, vl):
+        return vl.name
+
     def actionHighlighted(self, act_on_this, key_press):
-        npyscreen.notify_confirm('Chosen: ' + str(act_on_this), '')
+        if act_on_this.on_select:
+            act_on_this.on_select()
 
 
 class MenuDisplay (npyscreen.FormMutt):
@@ -26,19 +30,45 @@ class MenuDisplay (npyscreen.FormMutt):
         self.parentApp.switchForm(constants.Forms.LOGIN_FORM)
 
     def beforeEditing(self):
-        self.update_list()
+        self.fill_form()
 
-    def update_list(self):
-        # TODO evaluate rights and fill menu accordingly
+    def fill_form(self):
         if not self.parentApp.current_user:
             self.parentApp.switchForm(constants.Forms.LOGIN_FORM)
 
+        self.wMain.values = []
+        self.fill_status()
+        self.fill_menu()
+
+    def fill_status(self):
         self.wStatus1.value = "Logged on as %s" % (self.parentApp.current_user["username"])
         self.wStatus2.value = "Press q to Logout"
 
-        beverages = self.parentApp.db.connection.Beverage.find()
-        self.wMain.values = ["-- BUY"]
-        self.wMain.values += ["%s for %s" % (bev["name"], bev["price"]) for bev in beverages]
-        self.wMain.values += ["", "--META"]
-        self.wMain.values += ["Manage beverages", "Manage accounts", "Open fridge", "Show stats", "Deposit credits", "Show History", "Change Password"]
+    def fill_menu(self):
+        rights = self.parentApp.current_user['rights']
 
+        if permissions.Permissions.RIGHT_BUY_BEVERAGE.key in rights:
+            self.fill_beverages()
+            self.add_menu_entry("", None)
+
+        self.add_menu_entry("-- META", None)
+
+        if permissions.Permissions.RIGHT_MANAGE_BEVERAGES.key in rights:
+            self.add_menu_entry(permissions.Permissions.RIGHT_MANAGE_BEVERAGES.name, lambda: self.parentApp.switchForm(constants.Forms.BEVERAGE_FORM))
+
+    def fill_beverages(self):
+        beverages = self.parentApp.db.connection.Beverage.find()
+        self.add_menu_entry("-- BUY", None)
+
+        for bev in beverages:
+            self.add_menu_entry("%s for %s" % (bev["name"], bev["price"]), None)
+
+    def add_menu_entry(self, name, on_select):
+        self.wMain.values += [MenuItem(name, on_select)]
+
+
+class MenuItem:
+
+    def __init__(self, name, on_select):
+        self.name = name
+        self.on_select = on_select

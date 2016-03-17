@@ -46,7 +46,6 @@ class User(mongokit.Document):
     default_values = {'created': datetime.datetime.now, 'balance': 0.0, 'active': True}
 
 
-
 class Transaction(mongokit.Document):
     __database__ = 'matomat'
     __collection__ = 'transactions'
