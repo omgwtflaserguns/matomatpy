@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from mongokit import *
+import mongokit
 import datetime
 import config
 
 config = config.configuration()
-connection = Connection(config["uri"])
+connection = mongokit.Connection(config["uri"])
 
 @connection.register
-class Beverage(Document):
+class Beverage(mongokit.Document):
     __database__ = 'matomat'
     __collection__ = 'beverages'
     structure = {
@@ -24,7 +24,7 @@ class Beverage(Document):
     }
 
 @connection.register
-class User(Document):
+class User(mongokit.Document):
     __database__ = 'matomat'
     __collection__ = 'users'
     structure = {
@@ -37,19 +37,19 @@ class User(Document):
             "balance": float,
     }
     required_fields = ['username', 'created', 'password', 'rights', 'active', 'balance']
-    default_values = {'created':datetime.datetime.now, 'balance':0.0, 'active':True}
+    default_values = {'created': datetime.datetime.now, 'balance': 0.0, 'active': True}
 
 
 @connection.register
-class Transaction(Document):
+class Transaction(mongokit.Document):
     __database__ = 'matomat'
     __collection__ = 'transactions'
     structure = {
-            "username":unicode,
-            "beverage":unicode,
-            "price":float,
+            "username": unicode,
+            "beverage": unicode,
+            "price": float,
             "created": datetime.datetime,
     }
     required_fields = ['username', 'beverage', 'price', 'created']
-    default_values = {'created':datetime.datetime.now()}
+    default_values = {'created': datetime.datetime.now()}
 

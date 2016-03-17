@@ -1,28 +1,23 @@
+# -*- coding: utf-8 -*-
 import npyscreen
 import constants
-import pyfiglet
 import db
 
-class MenuDisplay (npyscreen.Form):
+class MenuList (npyscreen.MultiLineAction):
+
+    def actionHighlighted(self, act_on_this, key_press):
+        npyscreen.notify_confirm('Chosen: ' + str(act_on_this), '')
+
+class MenuDisplay (npyscreen.FormMutt):
+
+    MAIN_WIDGET_CLASS = MenuList
+    MAIN_WIDGET_CLASS_START_LINE = 3
 
     def __init__(self, *args, **keywords):
         super(MenuDisplay, self).__init__(*args, **keywords)
         self.add_handlers({
             "q": self.when_quit
         })
-
-    def register_widgets(self):
-        figlet = pyfiglet.Figlet()
-        header = figlet.renderText("Menu")
-
-        self.wgHeader = self.add_widget(npyscreen.MultiLineEdit, value=header, editable=False)
-        self.wgFooter = self.add_widget(npyscreen.MultiLineEdit, value='q to quit', editable=False, rely=-3)
-        self.wgBuy = self.add_widget(npyscreen.TitleSelectOne, name='Buy', rely=10)
-
-    def create(self):
-        self.register_widgets()
-        beverages = db.connection.Beverage.find()
-        self.wgBuy.values = ["%s - %s" % (bev["price"], bev["name"]) for bev in beverages]
 
     def when_quit(self, *args, **keywords):
         self.parentApp.current_user = ''
@@ -35,4 +30,13 @@ class MenuDisplay (npyscreen.Form):
         # TODO evaluate rights and fill menu accordingly
         if not self.parentApp.current_user:
             self.parentApp.switchForm(constants.Forms.LOGIN_FORM)
+
+        self.wStatus1.value = "Logged on as %s" % (self.parentApp.current_user["username"])
+        self.wStatus2.value = "Press q to Logout"
+
+        beverages = db.connection.Beverage.find()
+        self.wMain.values = ["-- BUY"]
+        self.wMain.values += ["%s for %s" % (bev["name"], bev["price"]) for bev in beverages]
+        self.wMain.values += ["", "--META"]
+        self.wMain.values += ["Manage beverages", "Manage accounts", "Open fridge", "Show stats", "Deposit credits", "Show History", "Change Password"]
 
