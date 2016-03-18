@@ -1,16 +1,9 @@
 import os
 
 
-class Paths(object):
-    CONFIG_FILE = os.path.expanduser('~/.matomat.conf')
+class Constants(object):
+    CONFIG_SECTION_GENERAL = 'General'
+    CONFIG_ATTRIBUTE_MONGODB_URI = 'MongoDB'
+    PATH_CONFIG_FILE = os.path.expanduser('~/.matomat.conf')
+    PATH_LOG_FILE = os.path.expanduser('~/matomat.log')
 
-class Options(object):
-    MONGODB_URI = 'MongoDB URI'
-
-class Forms(object):
-
-    LOGIN_FORM = 'LOGIN'
-    BEVERAGE_FORM = 'BEVERAGES'
-    MENU_FORM = 'MENU'
-    CONFIG_FORM = 'CONFIG'
-    MAIN_FORM = 'MAIN'

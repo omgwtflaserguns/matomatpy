@@ -1,39 +1,21 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-import npyscreen
-import constants
-
+import logging
+import configparser
+from matomat.constants import Constants
 
 class Config:
 
-    options = None
+    _parser = None
+    mongodb_uri = None
 
     def __init__(self):
-        self.options = self.create_config()
+        self._parser = configparser.ConfigParser()
+        logging.debug('Reading Config from %s' % Constants.PATH_CONFIG_FILE)
+        self._parser.read(Constants.PATH_CONFIG_FILE)
 
-    def write_config(self):
-        with open(constants.Paths.CONFIG_FILE, 'w') as f:
-            for opt in self.options.options:
-                    f.write('%s=%s\n' % (opt.get_real_name(), opt.get()))
+        self.mongodb_uri = self._parser[Constants.CONFIG_SECTION_GENERAL][Constants.CONFIG_ATTRIBUTE_MONGODB_URI]
+        logging.debug('Config - %s -> %s' % (Constants.CONFIG_ATTRIBUTE_MONGODB_URI, self.mongodb_uri))
 
-    def create_config(self):
-        opt = npyscreen.OptionList()
-        opt.options.append(npyscreen.OptionFreeText(
-                       constants.Options.MONGODB_URI,
-                       value='localhost'))
-        return opt
 
-    def read_config(self):
-        try:
-            with open(constants.Paths.CONFIG_FILE, 'r') as f:
-                for line in f.readlines():
-                     line = line.strip()
-                     name, value = line.split("=")
-                     for option in self.options.options:
-                         if option.get_real_name() == name:
-                             option.set(value)
-            return True
-        except:
-            return False
+
+
 
