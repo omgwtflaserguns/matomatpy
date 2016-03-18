@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from matomat.matomat import Catalog
+from matomat.matomat import Matomat
 
-matomat = Catalog.matomat()
-matomat.run()
+Matomat.start()

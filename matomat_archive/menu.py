@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-import npyscreen
 import constants
 import permissions
 

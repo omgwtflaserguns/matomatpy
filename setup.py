@@ -30,6 +30,6 @@ setup(
     keywords='mate mongodb fridge drinks',
     packages=find_packages(),
     zip_safe=True,
-    install_requires=['pyfiglet', 'pymongo', 'urwid', 'dependency_injector'],
+    install_requires=['pyfiglet', 'pymongo', 'dependency_injector'],
     scripts=['bin/matomat']
 )

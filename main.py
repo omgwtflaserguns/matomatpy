@@ -1,9 +1,9 @@
 
-from matomat.matomat import Catalog
+from matomat.matomat import Matomat
+
 
 def main():
-    matomat = Catalog.matomat()
-    matomat.run()
+    Matomat.start()
 
 if __name__ == '__main__':
     main()
