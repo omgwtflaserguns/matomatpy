@@ -2,11 +2,11 @@ import curses
 import logging
 from dependency_injector import catalog
 from dependency_injector import providers
-from .constants import Constants
-from .config import Config
-from .ui.menu import MenuForm
-from .ui.colors import Colors
-from .models.menu import MenuEntry
+from matomat.constants import Constants
+from matomat.config import Config
+from matomat.ui.menu import MenuForm
+from matomat.ui.colors import Colors
+from matomat.models.menu import MenuEntry
 
 
 class Matomat:
@@ -15,9 +15,10 @@ class Matomat:
                         format='%(asctime)s %(levelname)s %(module)s %(funcName)s %(message)s',
                         level=logging.DEBUG)
 
-    def __init__(self, colors, menuform):
+    def __init__(self, colors, menuform, config):
         self.colors = colors
         self.menuform = menuform
+        self.config = config
 
     def run(self, screen):
         self.colors.register()
@@ -39,4 +40,4 @@ class Catalog (catalog.DeclarativeCatalog):
 
     menuform = providers.Singleton(MenuForm, colors)
 
-    matomat = providers.Singleton(Matomat, colors, menuform)
+    matomat = providers.Singleton(Matomat, colors, menuform, config)

@@ -1,6 +1,6 @@
 import pyfiglet
-from .form import FormBase
-from ..models.point import Point
+from matomat.ui.form import FormBase
+from matomat.models.point import Point
 
 
 class MenuForm (FormBase):
