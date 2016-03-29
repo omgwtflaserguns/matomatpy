@@ -1,5 +1,6 @@
 import pyfiglet
 import curses
+import logging
 from matomat.ui.form import FormBase
 from matomat.models.point import Point
 
@@ -57,9 +58,10 @@ class MenuForm (FormBase):
             self._draw_header(screen)
             self._draw_menu(screen)
             key = screen.getch()
+            logging.debug('Key pressed in Menu: %s' % key)
 
-            if key == curses.KEY_ENTER:
-                return self.menuitems[self.currentItem]
+            if key == curses.KEY_ENTER or key == 10:
+                return self.menuitems[self.currentItem].key
             elif key == ord('q'):
                 return None
             elif key == curses.KEY_DOWN:

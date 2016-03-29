@@ -7,3 +7,4 @@ class Constants(object):
 
     PATH_CONFIG_FILE = os.path.expanduser('~/.matomat.conf')
     PATH_LOG_FILE = os.path.expanduser('~/matomat.log')
+

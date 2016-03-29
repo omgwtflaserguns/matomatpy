@@ -6,7 +6,7 @@ from matomat.constants import Constants
 from matomat.config import Config
 from matomat.ui.menu import MenuForm
 from matomat.ui.colors import Colors
-from matomat.models.menu import MenuEntry
+from matomat.models.menu import MenuEntry, MenuKey
 
 
 class Matomat:
@@ -19,12 +19,33 @@ class Matomat:
         self.colors = colors
         self.menuform = menuform
         self.config = config
+        self.screen = None
+
+    def create_main_menu(self):
+        # TODO: Build Menu from beverages and Current user permissions
+        return [MenuEntry(MenuKey.buy_beverage, 'Buy ...beverage'),
+                MenuEntry(MenuKey.open_fridge, 'Open Fridge'),
+                MenuEntry(MenuKey.quit, 'Quit')]
+
+    def show_main_menu(self):
+        self.menuform.set_items(self.create_main_menu())
+        selection = self.menuform.show(self.screen)
+        logging.debug('Menu selected Entry: %s' % selection)
+        return selection
 
     def run(self, screen):
         self.colors.register()
+        self.screen = screen
 
-        self.menuform.set_items([MenuEntry('maeh', 'Buy beer'), MenuEntry('maeh', 'Buy mate'), MenuEntry('maeh', 'Do stuff')])
-        self.menuform.show(screen)
+        while True:
+            selection = self.show_main_menu()
+
+            if selection == MenuKey.quit:
+                break;
+            elif selection == MenuKey.open_fridge:
+                pass
+            elif selection == MenuKey.buy_beverage:
+                pass
 
     @staticmethod
     def start():
