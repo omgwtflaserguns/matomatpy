@@ -41,7 +41,7 @@ class Matomat:
             selection = self.show_main_menu()
 
             if selection == MenuKey.quit:
-                break;
+                break
             elif selection == MenuKey.open_fridge:
                 pass
             elif selection == MenuKey.buy_beverage:
