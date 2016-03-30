@@ -18,6 +18,26 @@ class MenuForm (FormBase):
     def set_items(self, menu_items):
         self.menuitems = menu_items
 
+    def show(self, screen):
+        self.currentItem = 0
+
+        while True:
+            screen.clear()
+            curses.curs_set(0)
+            self._draw_header(screen)
+            self._draw_menu(screen)
+            key = screen.getch()
+            logging.debug('Key pressed in Menu: %s' % key)
+
+            if key == curses.KEY_ENTER or key == 10:
+                return self.menuitems[self.currentItem].key
+            elif key == ord('q'):
+                return None
+            elif key == curses.KEY_DOWN:
+                self._list_down()
+            elif key == curses.KEY_UP:
+                self._list_up()
+
     def _draw_header(self, screen):
         y = MenuForm.HEADER_POSITION.y
         for line in self.figlet.renderText('Matomat').splitlines():
@@ -35,38 +55,20 @@ class MenuForm (FormBase):
             y += 1
             index += 1
 
-    def list_up(self):
+    def _list_up(self):
         if self.currentItem == 0:
             self.currentItem = len(self.menuitems) - 1
         else:
             self.currentItem -= 1
 
-    def list_down(self):
+    def _list_down(self):
         if self.menuitems:
             if self.currentItem == len(self.menuitems) - 1:
                 self.currentItem = 0
             else:
                 self.currentItem += 1
 
-    def show(self, screen):
-        self.currentItem = 0
 
-        while True:
-            screen.clear()
-            curses.curs_set(0)
-            self._draw_header(screen)
-            self._draw_menu(screen)
-            key = screen.getch()
-            logging.debug('Key pressed in Menu: %s' % key)
-
-            if key == curses.KEY_ENTER or key == 10:
-                return self.menuitems[self.currentItem].key
-            elif key == ord('q'):
-                return None
-            elif key == curses.KEY_DOWN:
-                self.list_down()
-            elif key == curses.KEY_UP:
-                self.list_up()
 
 
 

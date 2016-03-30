@@ -26,14 +26,14 @@ class Matomat:
         self.auth = auth
         self.screen = None
 
-    def create_main_menu(self):
+    def _create_main_menu(self):
         # TODO: Build Menu from beverages and Current user permissions
         return [MenuEntry(MenuKey.buy_beverage, 'Buy ...beverage'),
                 MenuEntry(MenuKey.open_fridge, 'Open Fridge'),
                 MenuEntry(MenuKey.quit, 'Quit')]
 
-    def show_main_menu(self):
-        self.menuform.set_items(self.create_main_menu())
+    def _show_main_menu(self):
+        self.menuform.set_items(self._create_main_menu())
         selection = self.menuform.show(self.screen)
         logging.debug('Menu selected Entry: %s' % selection)
         return selection
@@ -48,7 +48,7 @@ class Matomat:
 
         while True:
 
-            selection = self.show_main_menu()
+            selection = self._show_main_menu()
 
             if selection == MenuKey.quit:
                 break
