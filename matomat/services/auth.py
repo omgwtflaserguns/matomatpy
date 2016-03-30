@@ -13,8 +13,10 @@ class Authorization(object):
         if user:
             self.currentUser = user
             logging.debug('User logged in: %s' % username)
+            return True
         else:
             logging.warning('User login failed for user: %s' % username)
+            return False
 
     def logout(self):
         if self.currentUser:
