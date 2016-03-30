@@ -12,6 +12,6 @@ The Project Structure is defined.
 
 Run the built-in unittest module in the matomat root directory: 
 
-    python3 -m unittest
+    python3 -m unittest -v
     
 
