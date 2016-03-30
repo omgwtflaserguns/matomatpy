@@ -5,17 +5,17 @@ from matomat.constants import Constants
 from matomat.models.menu import MenuEntry, MenuKey
 from dependency_injector import catalog
 from dependency_injector import providers
-from matomat.config import Config
 from matomat.ui.menu import MenuForm
 from matomat.ui.login import LoginForm
 from matomat.ui.colors import Colors
 from matomat.services.auth import Authorization
-
+from matomat.services.db import Database
+from matomat.services.config import Config
 
 class Matomat:
 
     logging.basicConfig(filename=Constants.PATH_LOG_FILE,
-                        format='%(asctime)s %(levelname)s %(module)s %(funcName)s %(message)s',
+                        format='%(asctime)s %(levelname)s %(module)s %(funcName)s -> %(message)s',
                         level=logging.DEBUG)
 
     def __init__(self, colors, menuform, loginform, config, auth):
@@ -39,12 +39,14 @@ class Matomat:
         return selection
 
     def run(self, screen):
+        logging.debug("-- MATOMAT START --")
         self.colors.register()
         self.screen = screen
 
+        username, password = self.loginform.show(screen)
+        self.auth.login(username, password)
+
         while True:
-            username, password = self.loginform.show(screen)
-            self.auth.login(username, password)
 
             selection = self.show_main_menu()
 
@@ -63,13 +65,15 @@ class Matomat:
 
 class Catalog (catalog.DeclarativeCatalog):
 
+    colors = providers.Singleton(Colors)
+
     figlet = providers.Singleton(pyfiglet.Figlet)
 
     config = providers.Singleton(Config)
 
-    colors = providers.Singleton(Colors)
+    db = providers.Singleton(Database, config)
 
-    auth = providers.Singleton(Authorization)
+    auth = providers.Singleton(Authorization, db)
 
     menuform = providers.Singleton(MenuForm, colors, figlet)
 

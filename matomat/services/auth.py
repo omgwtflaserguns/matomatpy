@@ -1,14 +1,25 @@
 
+import logging
+
+
 class Authorization(object):
 
-    def __init__(self):
-        pass
+    def __init__(self, database):
+        self.db = database.db
+        self.currentUser = None
 
     def login(self, username, password):
-        pass
+        user = self.db.users.find_one({'username': username, 'password': password})
+        if user:
+            self.currentUser = user
+            logging.debug('User logged in: %s' % username)
+        else:
+            logging.warning('User login failed for user: %s' % username)
 
     def logout(self):
-        pass
+        if self.currentUser:
+            logging.debug('User logged in: %s' % self.currentUser['username'])
+        self.currentUser = None
 
     def get_curent_user(self):
-        pass
+        return self.currentUser
