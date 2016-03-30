@@ -1,4 +1,3 @@
-import pyfiglet
 import curses
 import logging
 from matomat.ui.form import FormBase
@@ -10,8 +9,8 @@ class MenuForm (FormBase):
     HEADER_POSITION = Point(3, 3)
     MENU_POSITION = Point(10, 5)
 
-    def __init__(self, colors):
-        self.figlet = pyfiglet.Figlet()
+    def __init__(self, colors, figlet):
+        self.figlet = figlet
         self.colors = colors
         self.menuitems = None
         self.currentItem = 0

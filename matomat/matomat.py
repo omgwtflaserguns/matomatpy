@@ -1,12 +1,15 @@
 import curses
 import logging
+import pyfiglet
+from matomat.constants import Constants
+from matomat.models.menu import MenuEntry, MenuKey
 from dependency_injector import catalog
 from dependency_injector import providers
-from matomat.constants import Constants
 from matomat.config import Config
 from matomat.ui.menu import MenuForm
+from matomat.ui.login import LoginForm
 from matomat.ui.colors import Colors
-from matomat.models.menu import MenuEntry, MenuKey
+from matomat.services.auth import Authorization
 
 
 class Matomat:
@@ -15,10 +18,12 @@ class Matomat:
                         format='%(asctime)s %(levelname)s %(module)s %(funcName)s %(message)s',
                         level=logging.DEBUG)
 
-    def __init__(self, colors, menuform, config):
+    def __init__(self, colors, menuform, loginform, config, auth):
         self.colors = colors
         self.menuform = menuform
+        self.loginform = loginform
         self.config = config
+        self.auth = auth
         self.screen = None
 
     def create_main_menu(self):
@@ -38,6 +43,9 @@ class Matomat:
         self.screen = screen
 
         while True:
+            username, password = self.loginform.show(screen)
+            self.auth.login(username, password)
+
             selection = self.show_main_menu()
 
             if selection == MenuKey.quit:
@@ -55,10 +63,16 @@ class Matomat:
 
 class Catalog (catalog.DeclarativeCatalog):
 
+    figlet = providers.Singleton(pyfiglet.Figlet)
+
     config = providers.Singleton(Config)
 
     colors = providers.Singleton(Colors)
 
-    menuform = providers.Singleton(MenuForm, colors)
+    auth = providers.Singleton(Authorization)
 
-    matomat = providers.Singleton(Matomat, colors, menuform, config)
+    menuform = providers.Singleton(MenuForm, colors, figlet)
+
+    loginform = providers.Singleton(LoginForm, figlet)
+
+    matomat = providers.Singleton(Matomat, colors, menuform, loginform, config, auth)
