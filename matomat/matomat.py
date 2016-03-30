@@ -12,8 +12,10 @@ from matomat.services.auth import Authorization
 from matomat.services.db import Database
 from matomat.services.config import Config
 
+
 class Matomat:
 
+    # TODO Move to Logger class from Catalog
     logging.basicConfig(filename=Constants.PATH_LOG_FILE,
                         format='%(asctime)s %(levelname)s %(module)s %(funcName)s -> %(message)s',
                         level=logging.DEBUG)
@@ -39,6 +41,7 @@ class Matomat:
         return selection
 
     def run(self, screen):
+        """Runs the matomat in the given curses screen"""
         logging.debug("-- MATOMAT START --")
         self.colors.register()
         self.screen = screen
@@ -59,6 +62,7 @@ class Matomat:
 
     @staticmethod
     def start():
+        """Starts a new matomat instance"""
         matomat = Catalog.matomat()
         curses.wrapper(matomat.run)
 
