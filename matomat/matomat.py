@@ -8,7 +8,7 @@ from dependency_injector import providers
 from matomat.ui.menu import MenuForm
 from matomat.ui.login import LoginForm
 from matomat.ui.colors import Colors
-from matomat.services.auth import Authorization
+from matomat.services.auth import Authorization, Permissions
 from matomat.services.db import Database
 from matomat.services.config import Config
 
@@ -30,9 +30,17 @@ class Matomat:
 
     def _create_main_menu(self):
         # TODO: Build Menu from beverages and Current user permissions
-        return [MenuEntry(MenuKey.buy_beverage, 'Buy ...beverage'),
-                MenuEntry(MenuKey.open_fridge, 'Open Fridge'),
-                MenuEntry(MenuKey.quit, 'Quit')]
+        menu = []
+
+        if self.auth.user_has_right(Permissions.RIGHT_BUY_BEVERAGE.key):
+            menu.append(MenuEntry(MenuKey.buy_beverage, 'Buy ...beverage'))
+
+        if self.auth.user_has_right(Permissions.RIGHT_OPEN_FRIDGE.key):
+            menu.append(MenuEntry(MenuKey.open_fridge, 'Open Fridge'))
+
+        menu.append(MenuEntry(MenuKey.quit, 'Quit'))
+
+        return menu
 
     def _show_main_menu(self):
         self.menuform.set_items(self._create_main_menu())
