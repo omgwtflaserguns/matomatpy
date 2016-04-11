@@ -54,8 +54,10 @@ class Matomat:
         self.colors.register()
         self.screen = screen
 
-        username, password = self.loginform.show(screen)
-        self.auth.login(username, password)
+        while True:
+            username, password = self.loginform.show(screen)
+            if self.auth.login(username, password):
+                break;
 
         while True:
 
@@ -89,6 +91,6 @@ class Catalog (catalog.DeclarativeCatalog):
 
     menuform = providers.Singleton(MenuForm, colors, figlet)
 
-    loginform = providers.Singleton(LoginForm, figlet)
+    loginform = providers.Singleton(LoginForm, colors, figlet)
 
     matomat = providers.Singleton(Matomat, colors, menuform, loginform, config, auth)
