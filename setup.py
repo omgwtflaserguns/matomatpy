@@ -33,6 +33,6 @@ setup(
     keywords='mate mongodb fridge drinks',
     packages=find_packages(),
     zip_safe=True,
-    install_requires=['pyfiglet', 'pymongo', 'mongobox'],
+    install_requires=['pyfiglet', 'pymongo'],
     scripts=['bin/matomat']
 )
