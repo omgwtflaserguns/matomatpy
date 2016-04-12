@@ -16,9 +16,11 @@ class MenuForm (FormBase):
         self.currentItem = 0
 
     def set_items(self, menu_items):
+        """sets the Menu to display by the show method"""
         self.menuitems = menu_items
 
     def show(self, screen):
+        """Displays the Menu given with set_items, returns the key of the selected item"""
         self.currentItem = 0
 
         while True:

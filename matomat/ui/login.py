@@ -34,6 +34,7 @@ class LoginForm(FormBase):
         curses.noecho()
 
     def show(self, screen):
+        """Shows the Login, returns username, password tuple"""
         screen.clear()
         self._draw_header(screen)
         self._draw_labels(screen)

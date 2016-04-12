@@ -30,8 +30,3 @@ class Config:
             msg = 'Could not read Config file from %s Config structure can be seen in example.conf' % Constants.PATH_CONFIG_FILE
             logging.fatal(msg)
             raise ConfigException(msg) from e
-
-
-
-
-

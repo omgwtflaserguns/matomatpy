@@ -9,6 +9,7 @@ class Authorization(object):
         self.currentUser = None
 
     def login(self, username, password):
+        """Try to login the given username and password combination, returns wether login was successful"""
         user = self.db.users.find_one({'username': username, 'password': password})
         if user:
             self.currentUser = user
@@ -19,11 +20,13 @@ class Authorization(object):
             return False
 
     def logout(self):
+        """Logout the current logged-in user"""
         if self.currentUser:
             logging.debug('User logged in: %s' % self.currentUser['username'])
         self.currentUser = None
 
     def user_has_right(self, key):
+        """Returns wether or not the currently logged in user has the right to the given key"""
         if not self.currentUser:
             return False
 
