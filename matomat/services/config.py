@@ -16,7 +16,7 @@ class Config:
     def get_numeric_loglevel(self):
         numeric_level = getattr(logging, self.loglevel.upper(), None)
         if not isinstance(numeric_level, int):
-            raise ValueError('Invalid log level: %s' % self.loglevel)
+            raise ValueError('Invalid log level: {}'.format(self.loglevel))
         return numeric_level
 
     def _read_config(self):
@@ -30,7 +30,7 @@ class Config:
             self.loglevel = self._parser[Constants.CONFIG_SECTION_GENERAL][Constants.CONFIG_ATTRIBUTE_LOGLEVEL]
 
         except Exception as e:
-            msg = 'Could not read Config file from %s Config structure can be seen in example.conf' % Constants.PATH_CONFIG_FILE
+            msg = 'Could not read Config file from {}, Config structure can be seen in example.conf'.format(Constants.PATH_CONFIG_FILE)
             raise ConfigException(msg) from e
 
     def __init__(self):

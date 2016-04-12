@@ -14,16 +14,16 @@ class Authorization(object):
         user = self.db.users.find_one({'username': username, 'password': password})
         if user:
             self.currentUser = user
-            self.log.debug('User logged in: %s' % username)
+            self.log.debug('User logged in: {}'.format(username))
             return True
         else:
-            self.log.warning('User login failed for user: %s' % username)
+            self.log.warning('User login failed for user: {}'.format(username))
             return False
 
     def logout(self):
         """Logout the current logged-in user"""
         if self.currentUser:
-            self.log.debug('User logged in: %s' % self.currentUser['username'])
+            self.log.debug('User logged out: {}'.format(self.currentUser['username']))
         self.currentUser = None
 
     def user_has_right(self, key):
