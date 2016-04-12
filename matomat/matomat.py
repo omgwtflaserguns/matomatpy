@@ -3,8 +3,6 @@ import logging
 import pyfiglet
 from matomat.constants import Constants
 from matomat.models.menu import MenuEntry, MenuKey
-from dependency_injector import catalog
-from dependency_injector import providers
 from matomat.ui.menu import MenuForm
 from matomat.ui.login import LoginForm
 from matomat.ui.colors import Colors
@@ -73,24 +71,14 @@ class Matomat:
     @staticmethod
     def start():
         """Starts a new matomat instance"""
-        matomat = Catalog.matomat()
+
+        colors = Colors()
+        figlet = pyfiglet.Figlet()
+        config = Config()
+        db = Database(config)
+        auth = Authorization(db)
+        menuform = MenuForm(colors, figlet)
+        loginform = LoginForm(colors, figlet)
+        matomat = Matomat(colors, menuform, loginform, config, auth)
+
         curses.wrapper(matomat.run)
-
-
-class Catalog (catalog.DeclarativeCatalog):
-
-    colors = providers.Singleton(Colors)
-
-    figlet = providers.Singleton(pyfiglet.Figlet)
-
-    config = providers.Singleton(Config)
-
-    db = providers.Singleton(Database, config)
-
-    auth = providers.Singleton(Authorization, db)
-
-    menuform = providers.Singleton(MenuForm, colors, figlet)
-
-    loginform = providers.Singleton(LoginForm, colors, figlet)
-
-    matomat = providers.Singleton(Matomat, colors, menuform, loginform, config, auth)
