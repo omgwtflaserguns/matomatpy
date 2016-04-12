@@ -32,8 +32,16 @@ Ready to contribute? Here's how to set up `matomat` for local development.
 
 Now you can make your changes locally.::
 
-    git add .
-    git commit -m "Your detailed description of your changes."
-    git push origin name-of-your-bugfix-or-feature
+    $ git add .
+    $ git commit -m "Your detailed description of your changes."
+    $ git push origin name-of-your-bugfix-or-feature
 
-5. Submit a pull request through the GitHub website.
+5. Run the test suite
+
+Run the built-in unittest module in the matomat root directory::
+
+    $ python3 -m unittest -v
+
+6. Submit a pull request through the GitHub website.
+
+
