@@ -13,18 +13,14 @@ from matomat.services.config import Config
 
 class Matomat:
 
-    # TODO Move to Logger class from Catalog
-    logging.basicConfig(filename=Constants.PATH_LOG_FILE,
-                        format='%(asctime)s %(levelname)s %(module)s %(funcName)s -> %(message)s',
-                        level=logging.DEBUG)
-
-    def __init__(self, colors, menuform, loginform, config, auth):
+    def __init__(self, colors, menuform, loginform, config, auth, log):
         self.colors = colors
         self.menuform = menuform
         self.loginform = loginform
         self.config = config
         self.auth = auth
         self.screen = None
+        self.log = log
 
     def _create_main_menu(self):
         # TODO: Build Menu from beverages and Current user permissions
@@ -43,12 +39,12 @@ class Matomat:
     def _show_main_menu(self):
         self.menuform.set_items(self._create_main_menu())
         selection = self.menuform.show(self.screen)
-        logging.debug('Menu selected Entry: %s' % selection)
+        self.log.debug('Menu selected Entry: %s' % selection)
         return selection
 
     def run(self, screen):
         """Runs the matomat in the given curses screen"""
-        logging.debug("-- MATOMAT START --")
+        self.log.debug("-- MATOMAT START --")
         self.colors.register()
         self.screen = screen
 
@@ -73,12 +69,24 @@ class Matomat:
         """Starts a new matomat instance"""
 
         colors = Colors()
+
         figlet = pyfiglet.Figlet()
+
         config = Config()
-        db = Database(config)
-        auth = Authorization(db)
+
+        logging.basicConfig(filename=Constants.PATH_LOG_FILE,
+                            format=Constants.LOG_FORMAT,
+                            level=config.get_numeric_loglevel())
+        log = logging.getLogger()
+
+        db = Database(config, log)
+
+        auth = Authorization(db, log)
+
         menuform = MenuForm(colors, figlet)
+
         loginform = LoginForm(colors, figlet)
-        matomat = Matomat(colors, menuform, loginform, config, auth)
+
+        matomat = Matomat(colors, menuform, loginform, config, auth, log)
 
         curses.wrapper(matomat.run)

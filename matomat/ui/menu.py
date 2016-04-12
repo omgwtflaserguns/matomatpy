@@ -29,7 +29,6 @@ class MenuForm (FormBase):
             self._draw_header(screen)
             self._draw_menu(screen)
             key = screen.getch()
-            logging.debug('Key pressed in Menu: %s' % key)
 
             if key == curses.KEY_ENTER or key == 10:
                 return self.menuitems[self.currentItem].key

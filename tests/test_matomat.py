@@ -8,7 +8,7 @@ from tests.mock import MicroMock
 class TestMatomat(unittest.TestCase):
 
     def setUp(self):
-        self.sut = Matomat(None, None, None, None, MicroMock(user_has_right=lambda key: False))
+        self.sut = Matomat(None, None, None, None, MicroMock(user_has_right=lambda key: False), MicroMock.get_log_mock())
 
     def test_main_menu_should_not_contain_prohibited_Entries(self):
         menu = self.sut._create_main_menu()

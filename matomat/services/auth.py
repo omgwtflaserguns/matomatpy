@@ -4,25 +4,26 @@ import logging
 
 class Authorization(object):
 
-    def __init__(self, database):
+    def __init__(self, database, log):
         self.db = database.db
         self.currentUser = None
+        self.log = log
 
     def login(self, username, password):
         """Try to login the given username and password combination, returns wether login was successful"""
         user = self.db.users.find_one({'username': username, 'password': password})
         if user:
             self.currentUser = user
-            logging.debug('User logged in: %s' % username)
+            self.log.debug('User logged in: %s' % username)
             return True
         else:
-            logging.warning('User login failed for user: %s' % username)
+            self.log.warning('User login failed for user: %s' % username)
             return False
 
     def logout(self):
         """Logout the current logged-in user"""
         if self.currentUser:
-            logging.debug('User logged in: %s' % self.currentUser['username'])
+            self.log.debug('User logged in: %s' % self.currentUser['username'])
         self.currentUser = None
 
     def user_has_right(self, key):

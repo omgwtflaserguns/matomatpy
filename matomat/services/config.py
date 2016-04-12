@@ -13,20 +13,25 @@ class Config:
     mongodb_uri = None
     loglevel = None
 
-    def __init__(self):
+    def get_numeric_loglevel(self):
+        numeric_level = getattr(logging, self.loglevel.upper(), None)
+        if not isinstance(numeric_level, int):
+            raise ValueError('Invalid log level: %s' % self.loglevel)
+        return numeric_level
+
+    def _read_config(self):
         self._parser = configparser.ConfigParser()
-        logging.debug('Reading Config from %s' % Constants.PATH_CONFIG_FILE)
 
         try:
             self._parser.read(Constants.PATH_CONFIG_FILE)
 
             self.mongodb_uri = self._parser[Constants.CONFIG_SECTION_GENERAL][Constants.CONFIG_ATTRIBUTE_MONGODB_URI]
-            logging.debug('Config - %s -> %s' % (Constants.CONFIG_ATTRIBUTE_MONGODB_URI, self.mongodb_uri))
 
             self.loglevel = self._parser[Constants.CONFIG_SECTION_GENERAL][Constants.CONFIG_ATTRIBUTE_LOGLEVEL]
-            logging.debug('Config - %s -> %s' % (Constants.CONFIG_ATTRIBUTE_LOGLEVEL, self.loglevel))
 
         except Exception as e:
             msg = 'Could not read Config file from %s Config structure can be seen in example.conf' % Constants.PATH_CONFIG_FILE
-            logging.fatal(msg)
             raise ConfigException(msg) from e
+
+    def __init__(self):
+        self._read_config()
