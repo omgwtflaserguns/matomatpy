@@ -50,7 +50,7 @@ class MenuForm (FormBase):
         index = 0
         for item in self.menuitems:
             if index == self.currentItem:
-                screen.addstr(y, MenuForm.MENU_POSITION.x, item.title, curses.A_STANDOUT)
+                screen.addstr(y, MenuForm.MENU_POSITION.x, item.title, self.colors.color_selected_menu_entry())
             else:
                 screen.addstr(y, MenuForm.MENU_POSITION.x, item.title)
             y += 1
