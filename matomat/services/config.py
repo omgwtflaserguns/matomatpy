@@ -1,5 +1,6 @@
 import logging
 import configparser
+import os
 from matomat.constants import Constants
 
 
@@ -12,6 +13,7 @@ class Config:
     _parser = None
     mongodb_uri = None
     loglevel = None
+    logfile = None
 
     def get_numeric_loglevel(self):
         numeric_level = getattr(logging, self.loglevel.upper(), None)
@@ -28,6 +30,8 @@ class Config:
             self.mongodb_uri = self._parser[Constants.CONFIG_SECTION_GENERAL][Constants.CONFIG_ATTRIBUTE_MONGODB_URI]
 
             self.loglevel = self._parser[Constants.CONFIG_SECTION_GENERAL][Constants.CONFIG_ATTRIBUTE_LOGLEVEL]
+
+            self.logfile = os.path.expanduser(self._parser[Constants.CONFIG_SECTION_GENERAL][Constants.CONFIG_ATTRIBUTE_LOGFILE])
 
         except Exception as e:
             msg = 'Could not read Config file from {}, Config structure can be seen in example.conf'.format(Constants.PATH_CONFIG_FILE)

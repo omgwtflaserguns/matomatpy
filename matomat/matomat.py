@@ -74,7 +74,7 @@ class Matomat:
 
         config = Config()
 
-        logging.basicConfig(filename=Constants.PATH_LOG_FILE,
+        logging.basicConfig(filename=config.logfile,
                             format=Constants.LOG_FORMAT,
                             level=config.get_numeric_loglevel())
         log = logging.getLogger()
