@@ -1,5 +1,5 @@
 
-import logging
+from matomat.models.menu import MenuKey, MenuEntry
 
 
 class Authorization(object):
@@ -32,6 +32,23 @@ class Authorization(object):
             return False
 
         return key in self.currentUser['rights']
+
+    def create_main_menu(self):
+        # TODO: Build Menu from beverages and Current user permissions
+        menu = []
+
+        if self.user_has_right(Permissions.RIGHT_BUY_BEVERAGE.key):
+            pass
+
+        if self.user_has_right(Permissions.RIGHT_OPEN_FRIDGE.key):
+            menu.append(MenuEntry(MenuKey.open_fridge, 'Open Fridge'))
+
+        if self.user_has_right(Permissions.RIGHT_MANAGE_BEVERAGES.key):
+            menu.append(MenuEntry(MenuKey.manage_beverages, 'Manage beverages'))
+
+        menu.append(MenuEntry(MenuKey.quit, 'Quit'))
+
+        return menu
 
 
 class Right:

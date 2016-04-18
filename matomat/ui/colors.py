@@ -18,4 +18,3 @@ class Colors(object):
     def color_selected_menu_entry(self):
         """returns the curses color pair intended for selected color entries"""
         return curses.color_pair(2)
-
