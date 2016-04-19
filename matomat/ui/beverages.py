@@ -1,34 +1,33 @@
 
+import curses
 from matomat.ui.form import FormBase
 from matomat.models.point import Point
 from matomat.models.menu import MenuEntry, MenuKey
 
 
-class BeveragesForm(FormBase):
+class BeveragesListForm(FormBase):
 
     HEADER_POSITION = Point(3, 3)
 
-    def __init__(self, colors, figlet, db):
+    def __init__(self, colors, figlet, db, editform):
         self.figlet = figlet
         self.colors = colors
         self.db = db
-        self.set_items(self._create_menu())
+        self.editform = editform
 
     def _create_menu(self):
         menu = [MenuEntry(MenuKey.add, 'New')]
 
         for beverage in self.db.beverages.find():
-            name = beverage['name']
-            id = beverage['_id']
-            menu.append(MenuEntry(id, 'Edit {}'.format(name)))
+            menu.append(MenuEntry(beverage['_id'], 'Edit - {} {:.2}'.format(beverage['name'], beverage['price']), beverage))
 
         menu.append(MenuEntry(MenuKey.quit, 'Exit'))
         return menu
 
     def _draw_header(self, screen):
-        y = BeveragesForm.HEADER_POSITION.y
+        y = BeveragesListForm.HEADER_POSITION.y
         for line in self.figlet.renderText('Beverages').splitlines():
-            screen.addstr(y, BeveragesForm.HEADER_POSITION.x, line, self.colors.color_header())
+            screen.addstr(y, BeveragesListForm.HEADER_POSITION.x, line, self.colors.color_header())
             y += 1
 
     def show(self, screen):
@@ -37,11 +36,66 @@ class BeveragesForm(FormBase):
         while True:
             screen.clear()
             self._draw_header(screen)
+            self.set_items(self._create_menu())
             selection = FormBase.get_menu_input(self, screen)
 
-            if selection == MenuKey.quit:
+            if selection.key == MenuKey.quit:
                 return
-            elif selection == MenuKey.add:
-                pass
+            elif selection.key == MenuKey.add:
+                self.editform.show(screen, {'name': 'New', 'price': None})
+            else:
+                self.editform.show(screen, selection.item)
+
+
+class BeverageEditForm(FormBase):
+
+    def __init__(self, colors, figlet, db):
+        self.figlet = figlet
+        self.colors = colors
+        self.db = db
+
+    # TODO Pull Rendering of figlets into formbase
+    def _draw_header(self, screen, beverage):
+        y = BeverageEditForm.HEADER_POSITION.y
+        for line in self.figlet.renderText('Edit {}'.format(beverage['name'])).splitlines():
+            screen.addstr(y, BeverageEditForm.HEADER_POSITION.x, line, self.colors.color_header())
+            y += 1
+
+    def _draw_labels(self, screen):
+        y = BeverageEditForm.INPUT_POSITION.y
+        screen.addstr(y, BeverageEditForm.INPUT_POSITION.x, 'Name:')
+        screen.addstr(y + 2, BeverageEditForm.INPUT_POSITION.x, 'Price:')
+
+    def _read_name(self, screen):
+        curses.echo()
+        return screen.getstr(BeverageEditForm.INPUT_POSITION.y, BeverageEditForm.INPUT_POSITION.x + 8).decode('utf-8')
+        curses.noecho()
+
+    def _read_price(self, screen):
+        curses.echo()
+        while True:
+                try:
+                    return float(screen.getstr(BeverageEditForm.INPUT_POSITION.y + 2, BeverageEditForm.INPUT_POSITION.x + 8))
+                except ValueError:
+                    continue
+        curses.noecho()
+
+    def show(self, screen, beverage):
+        """Shows the form to edit the given beverage in the given screen"""
+        screen.clear()
+        self._draw_header(screen, beverage)
+        self._draw_labels(screen)
+
+        beverage['name'] = self._read_name(screen)
+        beverage['price'] = self._read_price(screen)
+
+        if '_id' in beverage:
+            self.db.beverages.update({'_id': beverage['_id']}, beverage)
+        else:
+            self.db.beverages.insert(beverage)
+
+
+
+
 
 

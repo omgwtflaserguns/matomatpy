@@ -14,6 +14,7 @@ class MenuKey(Enum):
 
 class MenuEntry:
 
-    def __init__(self, key, title):
+    def __init__(self, key, title, item = None):
         self.key = key
         self.title = title
+        self.item = item

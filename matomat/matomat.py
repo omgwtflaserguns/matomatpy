@@ -5,7 +5,7 @@ from matomat.constants import Constants
 from matomat.models.menu import MenuEntry, MenuKey
 from matomat.ui.menu import MenuForm
 from matomat.ui.login import LoginForm
-from matomat.ui.beverages import BeveragesForm
+from matomat.ui.beverages import BeveragesListForm, BeverageEditForm
 from matomat.ui.colors import Colors
 from matomat.services.auth import Authorization, Permissions
 from matomat.services.db import Database
@@ -76,8 +76,10 @@ class Matomat:
 
         loginform = LoginForm(colors, figlet)
 
-        beveragesform = BeveragesForm(colors, figlet, database.db)
+        beverageeditform = BeverageEditForm(colors, figlet, auth.db)
 
-        matomat = Matomat(colors, menuform, loginform, beveragesform, config, auth, log)
+        beverageslistform = BeveragesListForm(colors, figlet, database.db, beverageeditform)
+
+        matomat = Matomat(colors, menuform, loginform, beverageslistform, config, auth, log)
 
         curses.wrapper(matomat.run)

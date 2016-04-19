@@ -19,7 +19,7 @@ class MenuForm (FormBase):
 
         screen.clear()
         self._draw_header(screen)
-        return FormBase.get_menu_input(self, screen)
+        return FormBase.get_menu_input(self, screen).key
 
     def _draw_header(self, screen):
         y = MenuForm.HEADER_POSITION.y

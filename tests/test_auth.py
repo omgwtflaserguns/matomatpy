@@ -17,7 +17,7 @@ class TestAuthorization(unittest.TestCase):
         db = self.box.client().matomat
         db.users.insert({'username': 'DummyUser', 'password': 'dummypassword'})
 
-        self.sut = Authorization(MicroMock(db=db), MicroMock.get_log_mock())
+        self.sut = Authorization(db, MicroMock.get_log_mock())
 
     def tearDown(self):
         self.box.stop()

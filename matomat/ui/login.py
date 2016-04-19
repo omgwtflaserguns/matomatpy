@@ -5,9 +5,6 @@ import curses
 
 class LoginForm(FormBase):
 
-    HEADER_POSITION = Point(3, 3)
-    INPUT_POSITION = Point(10, 5)
-
     def __init__(self, colors, figlet):
         self.figlet = figlet
         self.colors = colors
@@ -25,12 +22,12 @@ class LoginForm(FormBase):
 
     def _read_username(self, screen):
         curses.echo()
-        return screen.getstr(LoginForm.INPUT_POSITION.y, LoginForm.INPUT_POSITION.x + 8)
+        return screen.getstr(LoginForm.INPUT_POSITION.y, LoginForm.INPUT_POSITION.x + 8).decode('utf-8')
         curses.noecho()
 
     def _read_password(self, screen):
         curses.echo()
-        return screen.getstr(LoginForm.INPUT_POSITION.y + 2, LoginForm.INPUT_POSITION.x + 8)
+        return screen.getstr(LoginForm.INPUT_POSITION.y + 2, LoginForm.INPUT_POSITION.x + 8).decode('utf-8')
         curses.noecho()
 
     def show(self, screen):
@@ -39,7 +36,7 @@ class LoginForm(FormBase):
         self._draw_header(screen)
         self._draw_labels(screen)
 
-        user = self._read_username(screen).decode('ascii')
-        password = self._read_password(screen).decode('ascii')
+        user = self._read_username(screen)
+        password = self._read_password(screen)
 
         return user, password

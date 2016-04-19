@@ -7,7 +7,10 @@ from matomat.models.point import Point
 class FormBase(object):
     __metaclass__ = abc.ABCMeta
 
+    HEADER_POSITION = Point(3, 3)
     MENU_POSITION = Point(10, 5)
+    INPUT_POSITION = Point(10, 5)
+
     menuitems = None
     currentItem = 0
 
@@ -23,7 +26,7 @@ class FormBase(object):
             key = screen.getch()
 
             if key == curses.KEY_ENTER or key == 10:
-                return self.menuitems[self.currentItem].key
+                return self.menuitems[self.currentItem]
             elif key == ord('q'):
                 return None
             elif key == curses.KEY_DOWN:
