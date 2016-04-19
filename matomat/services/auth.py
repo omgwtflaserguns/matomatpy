@@ -4,8 +4,8 @@ from matomat.models.menu import MenuKey, MenuEntry
 
 class Authorization(object):
 
-    def __init__(self, database, log):
-        self.db = database.db
+    def __init__(self, db, log):
+        self.db = db
         self.currentUser = None
         self.log = log
 

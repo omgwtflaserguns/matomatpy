@@ -11,6 +11,11 @@ class Database:
 
     db = None
 
+    def __init__(self, config, log):
+        self.mongodb_uri = config.mongodb_uri
+        self.log = log
+        self._connect()
+
     def _connect(self):
         try:
             self.client = MongoClient(self.mongodb_uri)
@@ -22,7 +27,5 @@ class Database:
             self.log.fatal(msg)
             raise DatabaseError(msg) from e
 
-    def __init__(self, config, log):
-        self.mongodb_uri = config.mongodb_uri
-        self.log = log
-        self._connect()
+
+

@@ -68,15 +68,15 @@ class Matomat:
                             level=config.get_numeric_loglevel())
         log = logging.getLogger()
 
-        db = Database(config, log)
+        database = Database(config, log)
 
-        auth = Authorization(db, log)
+        auth = Authorization(database.db, log)
 
         menuform = MenuForm(colors, figlet)
 
         loginform = LoginForm(colors, figlet)
 
-        beveragesform = BeveragesForm(colors, figlet)
+        beveragesform = BeveragesForm(colors, figlet, database.db)
 
         matomat = Matomat(colors, menuform, loginform, beveragesform, config, auth, log)
 

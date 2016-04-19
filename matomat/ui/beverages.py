@@ -8,10 +8,22 @@ class BeveragesForm(FormBase):
 
     HEADER_POSITION = Point(3, 3)
 
-    def __init__(self, colors, figlet):
+    def __init__(self, colors, figlet, db):
         self.figlet = figlet
         self.colors = colors
-        self.set_items([MenuEntry(MenuKey.add, 'New'), MenuEntry(MenuKey.quit, 'Exit')])
+        self.db = db
+        self.set_items(self._create_menu())
+
+    def _create_menu(self):
+        menu = [MenuEntry(MenuKey.add, 'New')]
+
+        for beverage in self.db.beverages.find():
+            name = beverage['name']
+            id = beverage['_id']
+            menu.append(MenuEntry(id, 'Edit {}'.format(name)))
+
+        menu.append(MenuEntry(MenuKey.quit, 'Exit'))
+        return menu
 
     def _draw_header(self, screen):
         y = BeveragesForm.HEADER_POSITION.y
