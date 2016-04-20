@@ -9,6 +9,9 @@ __pycache__/
 # VirtualEnv
 .matomatenv
 
+# pycharm stuff
+.idea/
+
 # Distribution / packaging
 .Python
 env/
