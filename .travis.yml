@@ -11,3 +11,10 @@ install:
 
 # command to run tests
 script: python -m unittest -v
+
+# Codecov.io integration
+before_install:
+  - pip install codecov
+
+after_success:
+  - codecov
