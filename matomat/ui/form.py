@@ -34,6 +34,12 @@ class FormBase(object):
             elif key == curses.KEY_UP:
                 self._list_up()
 
+    def _draw_header(self, screen, text):
+        y = self.HEADER_POSITION.y
+        for line in self.figlet.renderText(text).splitlines():
+            screen.addstr(y, self.HEADER_POSITION.x, line, self.colors.color_header())
+            y += 1
+
     def _draw_menu(self, screen):
         y = self.MENU_POSITION.y
         index = 0

@@ -24,18 +24,12 @@ class BeveragesListForm(FormBase):
         menu.append(MenuEntry(MenuKey.quit, 'Exit'))
         return menu
 
-    def _draw_header(self, screen):
-        y = BeveragesListForm.HEADER_POSITION.y
-        for line in self.figlet.renderText('Beverages').splitlines():
-            screen.addstr(y, BeveragesListForm.HEADER_POSITION.x, line, self.colors.color_header())
-            y += 1
-
     def show(self, screen):
         """Shows the form to manage beverages in the given screen"""
 
         while True:
             screen.clear()
-            self._draw_header(screen)
+            self._draw_header(screen, 'Beverages')
             self.set_items(self._create_menu())
             selection = FormBase.get_menu_input(self, screen)
 
@@ -53,13 +47,6 @@ class BeverageEditForm(FormBase):
         self.figlet = figlet
         self.colors = colors
         self.db = db
-
-    # TODO Pull Rendering of figlets into formbase
-    def _draw_header(self, screen, beverage):
-        y = BeverageEditForm.HEADER_POSITION.y
-        for line in self.figlet.renderText('Edit {}'.format(beverage['name'])).splitlines():
-            screen.addstr(y, BeverageEditForm.HEADER_POSITION.x, line, self.colors.color_header())
-            y += 1
 
     def _draw_labels(self, screen):
         y = BeverageEditForm.INPUT_POSITION.y
@@ -83,7 +70,7 @@ class BeverageEditForm(FormBase):
     def show(self, screen, beverage):
         """Shows the form to edit the given beverage in the given screen"""
         screen.clear()
-        self._draw_header(screen, beverage)
+        self._draw_header(screen, 'Edit - {}'.format(beverage['name']))
         self._draw_labels(screen)
 
         beverage['name'] = self._read_name(screen)

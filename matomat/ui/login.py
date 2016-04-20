@@ -9,12 +9,6 @@ class LoginForm(FormBase):
         self.figlet = figlet
         self.colors = colors
 
-    def _draw_header(self, screen):
-        y = LoginForm.HEADER_POSITION.y
-        for line in self.figlet.renderText('Login').splitlines():
-            screen.addstr(y, LoginForm.HEADER_POSITION.x, line, self.colors.color_header())
-            y += 1
-
     def _draw_labels(self, screen):
         y = LoginForm.INPUT_POSITION.y
         screen.addstr(y, LoginForm.INPUT_POSITION.x, 'User:')
@@ -33,7 +27,7 @@ class LoginForm(FormBase):
     def show(self, screen):
         """Shows the Login, returns username, password tuple"""
         screen.clear()
-        self._draw_header(screen)
+        self._draw_header(screen, 'Login')
         self._draw_labels(screen)
 
         user = self._read_username(screen)
