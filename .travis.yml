@@ -11,8 +11,3 @@ install:
 
 # command to run tests
 script: python -m unittest -v
-
-# Code Climate coverage
-addons:
-    code_climate:
-        repo_token: 282feaaa179c77dea6e09ba5270efc1002b8feac6d30e3df51a1e1646ee8a798
