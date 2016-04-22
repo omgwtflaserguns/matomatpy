@@ -9,9 +9,8 @@ class BeveragesListForm(FormBase):
 
     HEADER_POSITION = Point(3, 3)
 
-    def __init__(self, colors, figlet, db, editform):
-        self.figlet = figlet
-        self.colors = colors
+    def __init__(self, figlet, colors, db, editform):
+        super().__init__(figlet, colors)
         self.db = db
         self.editform = editform
 
@@ -43,9 +42,8 @@ class BeveragesListForm(FormBase):
 
 class BeverageEditForm(FormBase):
 
-    def __init__(self, colors, figlet, db):
-        self.figlet = figlet
-        self.colors = colors
+    def __init__(self, figlet, colors, db):
+        super().__init__(figlet, colors)
         self.db = db
 
     def _draw_labels(self, screen):
@@ -53,28 +51,14 @@ class BeverageEditForm(FormBase):
         screen.addstr(y, BeverageEditForm.INPUT_POSITION.x, 'Name:')
         screen.addstr(y + 2, BeverageEditForm.INPUT_POSITION.x, 'Price:')
 
-    def _read_name(self, screen):
-        curses.echo()
-        return screen.getstr(BeverageEditForm.INPUT_POSITION.y, BeverageEditForm.INPUT_POSITION.x + 8).decode('utf-8')
-        curses.noecho()
-
-    def _read_price(self, screen):
-        curses.echo()
-        while True:
-                try:
-                    return float(screen.getstr(BeverageEditForm.INPUT_POSITION.y + 2, BeverageEditForm.INPUT_POSITION.x + 8))
-                except ValueError:
-                    continue
-        curses.noecho()
-
     def show(self, screen, beverage):
         """Shows the form to edit the given beverage in the given screen"""
         screen.clear()
         self._draw_header(screen, 'Edit - {}'.format(beverage['name']))
         self._draw_labels(screen)
 
-        beverage['name'] = self._read_name(screen)
-        beverage['price'] = self._read_price(screen)
+        beverage['name'] = self._read_string(screen, Point(BeverageEditForm.INPUT_POSITION.y, BeverageEditForm.INPUT_POSITION.x + 8))
+        beverage['price'] = self._read_float(screen, Point(BeverageEditForm.INPUT_POSITION.y + 2, BeverageEditForm.INPUT_POSITION.x + 8))
 
         if '_id' in beverage:
             self.db.beverages.update({'_id': beverage['_id']}, beverage)

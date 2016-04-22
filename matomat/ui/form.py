@@ -1,4 +1,3 @@
-
 import abc
 import curses
 from matomat.models.point import Point
@@ -13,6 +12,26 @@ class FormBase(object):
 
     menuitems = None
     currentItem = 0
+
+    def __init__(self, figlet, colors):
+        self.figlet = figlet
+        self.colors = colors
+
+    def _read_string_noecho(self, screen, point):
+        return screen.getstr(point.y, point.x).decode('utf-8')
+
+    def _read_string(self, screen, point):
+        curses.echo()
+        result = self._read_string_noecho(screen, point)
+        curses.noecho()
+        return result
+
+    def _read_float(self, screen, point):
+        while True:
+            try:
+                return float(self._read_string(screen, point))
+            except ValueError:
+                continue
 
     def set_items(self, menu_items):
         """sets the Menu to display by the show method"""
