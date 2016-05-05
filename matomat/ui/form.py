@@ -18,7 +18,11 @@ class FormBase(object):
         self.colors = colors
 
     def _read_string_noecho(self, screen, point):
-        return screen.getstr(point.y, point.x).decode('utf-8')
+        curses.curs_set(1)
+        value = screen.getstr(point.y, point.x).decode('utf-8')
+        curses.curs_set(0)
+        return value
+
 
     def _read_string(self, screen, point):
         curses.echo()

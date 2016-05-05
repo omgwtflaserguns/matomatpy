@@ -7,8 +7,6 @@ from matomat.models.menu import MenuEntry, MenuKey
 
 class BeveragesListForm(FormBase):
 
-    HEADER_POSITION = Point(3, 3)
-
     def __init__(self, figlet, colors, db, editform):
         super().__init__(figlet, colors)
         self.db = db
@@ -18,7 +16,7 @@ class BeveragesListForm(FormBase):
         menu = [MenuEntry(MenuKey.add, 'New')]
 
         for beverage in self.db.beverages.find():
-            menu.append(MenuEntry(beverage['_id'], 'Edit - {} {:.2}'.format(beverage['name'], beverage['price']), beverage))
+            menu.append(MenuEntry(beverage['_id'], 'Edit - {} {:.2f}'.format(beverage['name'], beverage['price']), beverage))
 
         menu.append(MenuEntry(MenuKey.quit, 'Exit'))
         return menu
